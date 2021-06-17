@@ -25,3 +25,15 @@ steps:
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/TEST-*.xml'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Free Trial (6beb01b4-bebc-4c63-b152-eef59256c065)'
+    appType: 'webApp'
+    WebAppName: 'nodejs'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
